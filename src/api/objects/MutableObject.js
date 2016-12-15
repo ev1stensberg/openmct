@@ -42,7 +42,7 @@ define([
     }
 
     function qualifiedEventName(object, eventName) {
-        return [object.key.identifier, eventName].join(':');
+        return [object.identifier.key, eventName].join(':');
     }
 
     MutableObject.prototype.stopListening = function () {
