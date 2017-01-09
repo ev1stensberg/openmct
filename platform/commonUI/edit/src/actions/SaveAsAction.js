@@ -43,6 +43,7 @@ define([
             policyService,
             dialogService,
             copyService,
+            notificationService,
             context
         ) {
             this.domainObject = (context || {}).domainObject;
@@ -52,6 +53,7 @@ define([
             this.policyService = policyService;
             this.dialogService = dialogService;
             this.copyService = copyService;
+            this.notificationService = notificationService;
         }
 
         /**
@@ -117,8 +119,10 @@ define([
 
                 return self.dialogService
                     .getUserInput(wizard.getFormStructure(true),
-                        wizard.getInitialFormValue()
-                    ).then(wizard.populateObjectFromInput.bind(wizard));
+                        wizard.getInitialFormValue())
+                    .then(wizard.populateObjectFromInput.bind(wizard), function (failureReason) {
+                        return Promise.reject("user canceled");
+                    });
             }
 
             function showBlockingDialog(object) {
@@ -171,11 +175,21 @@ define([
 
             function finishEditing(clonedObject) {
                 return domainObject.getCapability("editor").finish()
-                    .then(resolveWith(clonedObject));
+                    .then(function () {
+                        return fetchObject(clonedObject.getId());
+                    });
             }
 
-            function onFailure() {
+            function onSuccess(object) {
+                self.notificationService.info("Save Succeeded");
+                return object;
+            }
+
+            function onFailure(reason) {
                 hideBlockingDialog();
+                if (reason !== "user canceled") {
+                    self.notificationService.error("Save Failed");
+                }
                 return false;
             }
 
@@ -188,6 +202,7 @@ define([
                 .then(saveAfterClone)
                 .then(finishEditing)
                 .then(hideBlockingDialog)
+                .then(onSuccess)
                 .catch(onFailure);
         };
 

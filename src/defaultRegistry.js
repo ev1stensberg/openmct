@@ -25,6 +25,7 @@ define([
 
     '../src/adapter/bundle',
     '../src/api/objects/bundle',
+    '../src/api/telemetry/bundle',
 
     '../example/builtins/bundle',
     '../example/composite/bundle',
@@ -66,11 +67,10 @@ define([
     '../platform/execution/bundle',
     '../platform/exporters/bundle',
     '../platform/features/clock/bundle',
-    '../platform/features/conductor/bundle',
     '../platform/features/fixed/bundle',
-    '../platform/features/conductor-v2/conductor/bundle',
-    '../platform/features/conductor-v2/compatibility/bundle',
-    '../platform/features/conductor-v2/utcTimeSystem/bundle',
+    '../platform/features/conductor/core/bundle',
+    '../platform/features/conductor/compatibility/bundle',
+    '../platform/features/conductor/utcTimeSystem/bundle',
     '../platform/features/imagery/bundle',
     '../platform/features/layout/bundle',
     '../platform/features/my-items/bundle',
@@ -98,6 +98,7 @@ define([
     var DEFAULTS = [
         'src/adapter',
         'src/api/objects',
+        'src/api/telemetry',
         'platform/framework',
         'platform/core',
         'platform/representation',
@@ -126,7 +127,6 @@ define([
         'platform/forms',
         'platform/identity',
         'platform/persistence/aggregator',
-        'platform/persistence/local',
         'platform/persistence/queue',
         'platform/policy',
         'platform/entanglement',
