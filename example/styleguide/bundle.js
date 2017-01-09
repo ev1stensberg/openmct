@@ -44,6 +44,11 @@ define([
             ],
             "roots": [
                 {
+                    "id": "styleguide:folder"
+                }
+            ],
+            "models": [
+                {
                     "id": "styleguide:folder",
                     "priority" : "preferred",
                     "model": {
