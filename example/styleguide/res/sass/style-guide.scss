@@ -23,7 +23,8 @@
 @import "../../../../platform/commonUI/general/res/sass/constants";
 
 .l-style-guide {
-    font-size: 0.8em;
+    font-size: 0.9em;
+    text-align: justify;
     margin: auto 10%;
 
     h1, h2, h3 {
@@ -46,7 +47,8 @@
 
             .col {
                 @include flex(1 1 auto);
-                &:not(:last-child) { margin-right: $interiorMargin; }
+                &:not(:last-child) { margin-right: $interiorMargin * 4; }
+                min-width: 300px;
                 img { width: 100%; }
             }
 
