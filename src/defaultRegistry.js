@@ -110,7 +110,7 @@ define([
         'platform/commonUI/general',
         'platform/commonUI/inspect',
         'platform/commonUI/mobile',
-        'platform/commonUI/themes/snow',
+        'platform/commonUI/themes/espresso',
         'platform/commonUI/notification',
         'platform/containment',
         'platform/execution',
