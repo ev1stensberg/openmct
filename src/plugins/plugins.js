@@ -21,8 +21,9 @@
  *****************************************************************************/
 
 define([
-    'lodash'
-], function (_) {
+    'lodash',
+    './URLIndicatorPlugin/URLIndicatorPlugin'
+], function (_, URLIndicatorPlugin) {
     var bundleMap = {
         couchDB: 'platform/persistence/couch',
         elasticsearch: 'platform/persistence/elastic',
@@ -82,6 +83,10 @@ define([
             openmct.legacyRegistry.enable(bundleMap.elasticsearch);
         };
     };
+    
+    plugins.URLIndicatorPlugin = function() {
+      return URLIndicatorPlugin
+    }
 
     return plugins;
 });

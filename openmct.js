@@ -77,9 +77,8 @@ define([
     './src/MCT'
 ], function (Main, defaultRegistry, MCT) {
     var openmct = new MCT();
-
     openmct.legacyRegistry = defaultRegistry;
-
+    openmct.install(new openmct.plugins.URLIndicatorPlugin())
     openmct.on('start', function () {
         return new Main().run(defaultRegistry);
     });
