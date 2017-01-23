@@ -64,7 +64,11 @@ define([
     ) {
         var $http = this.$http,
             $log = this.$log,
-            app = angular.module(Constants.MODULE_NAME, ["ngRoute"]),
+            app = angular.module(Constants.MODULE_NAME, ["ngRoute"])
+            app.config(['$httpProvider', function($httpProvider) {
+              $httpProvider.defaults.useXDomain = true;
+              delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            }])
             loader = new BundleLoader($http, $log, legacyRegistry),
             resolver = new BundleResolver(
                 new ExtensionResolver(

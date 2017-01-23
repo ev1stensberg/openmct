@@ -84,9 +84,8 @@ define([
         };
     };
     
-    plugins.URLIndicatorPlugin = function() {
-      return URLIndicatorPlugin
-    }
+    plugins.URLIndicatorPlugin = URLIndicatorPlugin
+
 
     return plugins;
 });

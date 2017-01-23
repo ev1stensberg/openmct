@@ -14,6 +14,7 @@
         options = require('minimist')(process.argv.slice(2)),
         express = require('express'),
         app = express(),
+        cors = require('cors'),
         fs = require('fs'),
         request = require('request');
 
@@ -42,7 +43,8 @@
         process.exit(0);
     }
 
-    app.disable('x-powered-by');
+    //app.disable('x-powered-by');
+    app.use(cors())
 
     // Override bundles.json for HTTP requests
     app.use('/' + BUNDLE_FILE, function (req, res) {
@@ -67,7 +69,6 @@
     });
 
     app.use('/proxyUrl', function proxyRequest(req, res, next) {
-        console.log('Proxying request to: ', req.query.url);
         req.pipe(request({
             url: req.query.url,
             strictSSL: false
