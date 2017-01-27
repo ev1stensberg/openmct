@@ -29,6 +29,7 @@ define(
         // CONNECTED: Everything nominal, expect to be able to read/write.
         // DISCONNECTED: HTTP failed; maybe misconfigured, disconnected.
         // PENDING: Still trying to connect, and haven't failed yet.
+        // ERROR: Recieved answer but it due internal server error.
         var CONNECTED = {
                 text: "Connected",
                 glyphClass: "ok",
@@ -49,30 +50,19 @@ define(
                 glyphClass: "err",
                 description: "Error trying to connect to the URL"
             };
-
-        /**
-         * Indicator for the current ElasticSearch connection. Polls
-         * ElasticSearch at a regular interval (defined by bundle constants)
-         * to ensure that the database is available.
-         * @constructor
-         * @memberof platform/persistence/elastic
-         * @implements {Indicator}
-         * @param $http Angular's $http service
-         * @param $interval Angular's $interval service
-         * @param {string} path the URL to poll for elasticsearch availability
-         * @param {number} interval the interval, in milliseconds, to poll at
-         */
-        function URLIndicator($http, $interval, path, interval, opts) {
-        //    var path = opts.url;
-        //    var interval = opts.interval;
+        function URLIndicator($http, $interval) {
             // Track the current connection state
             var self = this;
-
+            
+            this.icon = "icon-".concat(this.options.icon) || "icon-database";
+            this.URLpath = this.options.url;
+            this.interval = this.options.interval;
             this.state = PENDING;
 
             // Callback if the HTTP request to ElasticSearch fails
-            function handleError() {
-                self.state = DISCONNECTED;
+            function handleError(e) {
+              if(e.status != 404) self.state = ERROR
+              else self.state = DISCONNECTED;
             }
 
             // Callback if the HTTP request succeeds.
@@ -81,17 +71,17 @@ define(
             }
 
             // Try to connect to ElasticSearch, and update the indicator.
-            function updateIndicator() {
-                $http.get('https://google.com').then(handleResponse, handleError);
+            function updateIndicator(path) {
+                $http.get(path).then(handleResponse, handleError);
             }
 
             // Update the indicator initially, and start polling.
-            updateIndicator();
-            $interval(updateIndicator, 10E4, 0, false);
+            updateIndicator(this.URLpath);
+            $interval(updateIndicator, this.interval, 0, false);
         }
 
         URLIndicator.prototype.getCssClass = function () {
-            return "icon-database";
+            return this.icon;
         };
         URLIndicator.prototype.getGlyphClass = function () {
             return this.state.glyphClass;
@@ -102,7 +92,6 @@ define(
         URLIndicator.prototype.getDescription = function () {
             return this.state.description;
         };
-
         return URLIndicator;
     }
 );

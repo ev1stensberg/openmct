@@ -78,12 +78,6 @@ define([
 ], function (Main, defaultRegistry, MCT) {
     var openmct = new MCT();
     openmct.legacyRegistry = defaultRegistry;
-    openmct.install(new openmct.plugins.URLIndicatorPlugin({ 
-    url: 'https://google.com', 
-    icon: 'database',
-    label: 'Google',
-    interval: 15000
-}))
     openmct.on('start', function () {
         return new Main().run(defaultRegistry);
     });
