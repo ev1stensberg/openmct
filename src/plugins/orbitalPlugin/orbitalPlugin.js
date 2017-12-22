@@ -54,20 +54,18 @@ define(['Cesium'], function (Cesium) {
                             container.innerHTML = `<style>
                                 
                             
-                            canvas {
-                            
-                                height: 100vh;
+                            .fullSize canvas {
+                                height: 80vh;
                                 width: 100%;
                                 margin: 0;
-                                overflow: hidden;
                                 padding: 0;
                                 font-family: sans-serif;
                             }
                         </style><div
                          id="cesiumContainer" class="fullSize"></div>`;
-                      
+                         Cesium.BingMapsApi.defaultKey = "At5h5Vut69F_AaLD8xYVmG4NftyWrg9i8-SrD77dXFByIonDHGmY65Pig-J90Jyh"
                             var viewer = new Cesium.CesiumWidget('cesiumContainer');
-    
+                            viewer.creditContainer.remove()
                         },
                         destroy: function (container) {
                         }
